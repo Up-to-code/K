@@ -1,71 +1,69 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import ManImage from "../../assets/images/Catogres/men/man.jpg";
+import WomanImage from "../../assets/images/Catogres/women/woman.jpg";
 const Gender = () => {
+  const ManImageURL = Image.resolveAssetSource(ManImage).uri;
+  const WomanImageURL = Image.resolveAssetSource(WomanImage).uri;
   return (
     <View style={styles.container}>
-      <View style={styles.MaleBox}>
-        <Ionicons name="male" size={32} color="#ffffff" />
-        <Text>Male</Text>
-      </View>
-      <View style={styles.FemaleBox}>
-        <Ionicons name="female" size={32} color="#ffffff" />
-        <Text>Female</Text>
-      </View>
+      <ImageBackground
+        source={{ uri: ManImageURL }}
+        style={styles.ImageBox}
+        loadingIndicatorSource={{ uri: ManImageURL }}
+      >
+        <View style={styles.BlackBox}>
+          <Text style={{ color: "white", fontWeight: "bold" ,
+            fontSize: 20
+            ,fontFamily :"sans-serif-medium"
+          }}>Man</Text>
+        </View>
+      </ImageBackground>
+
+      <ImageBackground
+        source={{ uri: WomanImageURL }}
+        style={styles.ImageBox}
+        loadingIndicatorSource={{ uri: WomanImageURL }}
+      >
+        <View style={styles.BlackBox}>
+          <Text style={{ color: "white", fontWeight: "bold" ,
+            fontSize: 20
+            ,fontFamily :"sans-serif-medium"
+          }}>Woman</Text>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
 
-export default Gender;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    fontWeight: "bold",
+    height: "auto",
+    flexDirection:"column",
+    gap : 20
   },
-  icon: {
-    color: "#ffffff",
+  image: {
+    width: "auto",
+    height: 100,
   },
-  MaleBox: {
-    backgroundColor: "#0a7ea4",
-    borderRadius: 10,
-    padding: 10,
-    width: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    borderWidth: 2,
-    shadowColor: "#0a7ea4",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+  ImageBox: {
+    width: "auto",
+    height: 100,
+    position: "relative",
     marginHorizontal: 10,
-  },
-  FemaleBox: {
-    backgroundColor: "#bd2a91",
-    marginHorizontal: 10,
+    overflow: "hidden",
     borderRadius: 10,
-    padding: 10,
-    width: 100,
-    alignItems: "center",
+  },
+  BlackBox: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
-    gap: 10,
-    borderWidth: 2,
-    shadowColor: "#bd2a91",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    alignItems: "center",
+    color: "white",
   },
 });
+
+export default Gender;

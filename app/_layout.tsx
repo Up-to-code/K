@@ -7,8 +7,9 @@ import { Stack } from "expo-router";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Text } from "react-native";
-
+import { Text, View } from "react-native";
+import { LogoBlue } from "@/components/common/Logo";
+import Colors from "@/lib/Color";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -22,16 +23,11 @@ export default function RootLayout() {
           animationTypeForReplace: "push",
         }}
       >
-        <Stack.Screen name="index" options={{ headerShown: false }}/>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen
           name="app"
           options={{
-            headerLeft: (e) => {
-              return <Text>{e.label}</Text>;
-            },
-            headerTitle: () => {
-              return <Text>Click flower </Text>;
-            },
+            headerShown: false,
           }}
         />
         <Stack.Screen name="+not-found" />

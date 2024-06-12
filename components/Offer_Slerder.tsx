@@ -25,33 +25,37 @@ const OfferSlerder = () => {
     <View style={{ height: 200, width: Dimensions.get("screen").width }}>
       <FlashList
         horizontal
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
         data={data}
         renderItem={({ item }) => (
-          <View
-            style={{
-              height: 150,
-              width: Dimensions.get("screen").width - 20,
-              backgroundColor: "#eaeaea",
-              margin: 10,
-              borderRadius: 10,
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.container}>
             <Text>{item.name}</Text>
           </View>
         )}
         keyExtractor={(item) => item.id.toString()}
         estimatedItemSize={200}
-      />
+
+
+/>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: 150,
+    width: Dimensions.get("screen").width - 20,
+    backgroundColor: "#f5f5f5",
+    margin: 10,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default OfferSlerder;

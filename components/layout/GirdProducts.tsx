@@ -9,33 +9,34 @@ const GirdProducts = () => {
       title: "Product 1",
       price: 10,
       image:
-        "https://images.unsplash.com/photo-1686121522744-dc…xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://plus.unsplash.com/premium_photo-1677541205130-51e60e937318?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 2,
       title: "Product 2",
       price: 20,
       image:
-        "	https://images.unsplash.com/photo-1686121544831-3f…xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1570831739435-6601aa3fa4fb?q=80&w=1326&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 3,
       title: "Product 3",
       price: 30,
       image:
-        "	https://images.unsplash.com/photo-1686121544831-3f…xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1524638067-feba7e8ed70f?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 4,
       title: "Product 4",
       price: 40,
       image:
-        "	https://images.unsplash.com/photo-1598440947619-2c…xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D ",
+        "https://images.unsplash.com/photo-1585232350744-974fc9804d65?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ];
   return (
     <View style={styles.container}>
       <FlashList
+        showsVerticalScrollIndicator={false}
         data={Prodcuts}
         numColumns={2}
         renderItem={({ item }) => (
@@ -59,7 +60,6 @@ export default GirdProducts;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     height: Dimensions.get("screen").height,
     width: Dimensions.get("screen").width,
     marginVertical: 20,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     padding: 10,
     borderRadius: 10,
-    shadowColor: "#71717175",
+    shadowColor: "#00000043",
   },
   ProductImageBox: {
     height: 130,
