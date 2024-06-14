@@ -11,20 +11,30 @@ import {
 } from "react-native";
 
 import exampleImage from "../assets/images/SplsheScreen/backgound.jpg";
-
 import Logo from "../components/common/Logo";
 import { StatusBar } from "expo-status-bar";
 import Colors from "@/lib/Color";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/Firebase_Confing";
 const Index = () => {
   const router = useRouter();
-
   const exampleImageUri = Image.resolveAssetSource(exampleImage).uri;
-
+  const [user, loading, error] = useAuthState(auth);
   useEffect(() => {
-    setTimeout(() => {
-      router.replace("/app");
-    }, 3000);
-  }, []);
+    if (loading) {
+      return;
+    }
+    if (user?.uid) {
+      setTimeout(() => {
+        router.replace("/app");
+      }, 3000);
+      return;
+    } else {
+      setTimeout(() => {
+        router.replace("/Sign-in");
+      }, 3000);
+    }
+  }, [user]);
   return (
     <View style={styles.container}>
       <StatusBar style="light" />

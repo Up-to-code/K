@@ -1,5 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
+  "typeRoots": ["node_modules/@types", "path/to/local/types"],
   "compilerOptions": {
     "strict": true,
     "paths": {
@@ -9,11 +10,11 @@
     }
   },
   "include": [
+ 
     "**/*.ts",
     "**/*.tsx",
-    "**/*.png",
-    "**/*.jpg",
     ".expo/types/**/*.ts",
+    "node_modules/firebase",
     "expo-env.d.ts"
   ]
 }
