@@ -1,69 +1,72 @@
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  Alert,
+} from "react-native";
+import React from "react";
 import Colors from "@/lib/Color";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "@/firebase/Firebase_Confing";
-import {
-  useCreateUserWithEmailAndPassword,
-  useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
-} from "react-firebase-hooks/auth";
+
 import { useRouter } from "expo-router";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 interface Props {
-  Auth_Taype: "Signin" | "Signup";
+  Auth_Taype: "Sign-in" | "Sign-up";
 }
 const Auth = ({ Auth_Taype }: Props) => {
   const reouter = useRouter();
   const [isFocused, setIsFocused] = React.useState(false);
   const [isFocused1, setIsFocused1] = React.useState(false);
-  const inputEmailRef = React.useRef<TextInput>(null);
-  const inputPasswordRef = React.useRef<TextInput>(null);
-  const [
-    signInWithEmailAndPassword,
-    user,
-    loading,
-    error,
-  ] = useSignInWithEmailAndPassword(auth);
-  const [
-    createUserWithEmailAndPassword,
-    user1,
-    loading1,
-    error1,
-  ] = useCreateUserWithEmailAndPassword(auth);
-  const [
-    signInWithGoogle,
-    userGoogle,
-    loadingGoogle,
-    errorGoogle,
-  ] = useSignInWithGoogle(auth);
-  const onSubmit = () => {
+
+  const [isSignInLoading, setIsSignInLoading] = React.useState(false);
+  const [isSignUpLoading, setIsSignUpLoading] = React.useState(false);
+  const [inputEmail, setOtpy] = React.useState("");
+  const [inputPassword, setInputPassword] = React.useState("");
+
+  const onSubmit = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(inputEmailRef.current?.props.value as string)) {
-      alert("Invalid email address");
+    if (!emailRegex.test(inputEmail)) {
+      Alert.alert("Invalid email address");
       return;
     }
-    if ((inputPasswordRef.current?.props.value?.length as number) < 6) {
-      alert("Password must be at least 6 characters long");
+    if (inputPassword.length < 6) {
+      Alert.alert("Password must be at least 6 characters long");
       return;
     }
 
-    if (Auth_Taype == "Signin") {
-      signInWithEmailAndPassword(
-        inputEmailRef.current?.props.value as string,
-        inputPasswordRef.current?.props.value as string
-      );
-    } else if (Auth_Taype == "Signup") {
-      createUserWithEmailAndPassword(
-        inputEmailRef.current?.props.value as string,
-        inputPasswordRef.current?.props.value as string
-      );
+    if (Auth_Taype == "Sign-in") {
+      try {
+        setIsSignInLoading(true);
+        await signInWithEmailAndPassword(auth, inputEmail, inputPassword);
+      } catch (error) {
+        setIsSignInLoading(false);
+        alert("Invalid email or password");
+        return;
+      }
+    } else if (Auth_Taype == "Sign-up") {
+      try {
+        setIsSignUpLoading(true);
+        await createUserWithEmailAndPassword(
+          auth,
+          inputEmail,
+          inputPassword
+        ).then(() => {
+          reouter.replace("/app");
+        });
+      } catch (error) {
+        setIsSignUpLoading(false);
+        alert("Invalid email or password");
+        return;
+      }
     }
   };
-  useEffect(() => {
-    if (user?.user.uid || user1?.user.uid) {
-      reouter.replace("/app");
-    }
-  }, [user, user1]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -89,7 +92,7 @@ const Auth = ({ Auth_Taype }: Props) => {
                     borderBottomColor: isFocused1 ? Colors.main : "gray",
                   },
                 ]}
-                ref={inputEmailRef}
+                onChange={(e) => setOtpy(e.nativeEvent.text)}
                 onFocus={() => {
                   setIsFocused1(true);
                 }}
@@ -112,7 +115,7 @@ const Auth = ({ Auth_Taype }: Props) => {
                     borderBottomColor: isFocused ? Colors.main : "gray",
                   },
                 ]}
-                ref={inputPasswordRef}
+                onChange={(e) => setInputPassword(e.nativeEvent.text)}
                 textContentType="password"
                 secureTextEntry
                 cursorColor={Colors.main}
@@ -128,30 +131,30 @@ const Auth = ({ Auth_Taype }: Props) => {
               <Text
                 style={styles.bottn}
                 onPress={() => onSubmit()}
-                disabled={Auth_Taype === "Signin" ? loading : loading1}
+                disabled={
+                  Auth_Taype === "Sign-in" ? isSignInLoading : isSignUpLoading
+                }
               >
-                {Auth_Taype === "Signin" ? "Signin" : "Signup"}
+                {Auth_Taype === "Sign-in" ? "Sign in" : "Create an account"}
               </Text>
             </View>
 
             <Text
-              style={[styles.bottn, { marginTop: 20 }]}
+              style={[
+                styles.bottn,
+                {
+                  marginTop: 20,
+                  color: Colors.main,
+                  backgroundColor: Colors.light,
+                },
+              ]}
               onPress={() => {
-                Auth_Taype === "Signin"
-                  ? reouter.replace("/auth/signup")
-                  : reouter.replace("/auth/signin");
+                Auth_Taype === "Sign-in"
+                  ? reouter.replace("/Sign-up")
+                  : reouter.replace("/Sign-in");
               }}
             >
-              {Auth_Taype === "Signin" ? "Signup" : "Signin"}
-            </Text>
-
-            <Text
-              style={[styles.bottn, { marginTop: 20 }]}
-              onPress={() => {
-                signInWithGoogle();
-              }}
-            >
-              Sign in with Google
+              {Auth_Taype === "Sign-in" ? "Create an account" : "Sign in"}
             </Text>
           </View>
         </ScrollView>

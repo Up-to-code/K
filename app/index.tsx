@@ -14,26 +14,27 @@ import exampleImage from "../assets/images/SplsheScreen/backgound.jpg";
 import Logo from "../components/common/Logo";
 import { StatusBar } from "expo-status-bar";
 import Colors from "@/lib/Color";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/Firebase_Confing";
+import { onAuthStateChanged } from "firebase/auth";
+import { useUserStore } from "@/lib/store/user_store";
 const Index = () => {
   const router = useRouter();
   const exampleImageUri = Image.resolveAssetSource(exampleImage).uri;
-  const [user, loading, error] = useAuthState(auth);
+  const {user, setUser } = useUserStore();
+
   useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user?.uid) {
-      setTimeout(() => {
-        router.replace("/app");
-      }, 3000);
-      return;
-    } else {
-      setTimeout(() => {
-        router.replace("/Sign-in");
-      }, 3000);
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setTimeout(() => {
+          router.replace("/app");
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          router.replace("/Sign-in");
+        }, 3000);
+      }
+    });
   }, [user]);
   return (
     <View style={styles.container}>
